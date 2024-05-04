@@ -1,0 +1,16 @@
+{
+  "app_title": "SpaceX",
+  "language": "Language",
+  "welcome_message": "Welcome {{name}}",
+  "Page_not_found": "Page not found.",
+  "page_not_exist": "The page you’re looking for doesn’t exist.",
+  "sorry": "Opps!",
+  "go_home": "Go Home",
+
+
+  "Dashboard": "Dashboard",
+  "Chat_With_Us": "Chat with us",
+
+  "Log_Out": "Log Out"
+
+}

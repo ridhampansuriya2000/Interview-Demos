@@ -1,0 +1,54 @@
+.container{
+    padding: 20px;
+    overflow-y: auto;
+    height: calc(100% - 64px);
+}
+
+.itemContainer{
+    margin: 25px 0px 0px 0px ;
+}
+.items{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0px;
+    font-size: 17px;
+}
+
+.mediaContainer{
+    display: flex;
+    justify-content: center;
+    margin: 10px 0px;
+}
+
+.textSuccess{
+    color : green;
+    font-weight:bold;
+}
+
+.textFailed{
+    color : red;
+    font-weight:bold;
+}
+
+.textBold{
+    color : black;
+    font-weight: 500;
+}
+
+.details{
+    margin-top: 20px;
+    font-size: 20px;
+    font-family: "Bodoni MT";
+    line-height: 1.2;
+}
+
+.details p {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.3;
+}
+
+.linkDetails, .linkDetails a {
+    font-size: 17px;
+    font-family: "Bodoni MT";
+}

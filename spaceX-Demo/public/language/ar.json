@@ -1,0 +1,15 @@
+{
+  "app_title": "الفراغ",
+  "language": "اللغة",
+  "welcome_message": "اهلا بكم {{name}}",
+  "Page_not_found": "الصفحة غير موجودة",
+  "page_not_exist": "الصفحة التي تبحث عنها غير موجودة.",
+  "sorry": "عفوا!",
+  "go_home": "اذهب للمنزل",
+
+  "Dashboard": "Dashboard",
+  "Chat_With_Us": "Chat with us",
+
+  "Log_Out": "Log Out"
+
+}

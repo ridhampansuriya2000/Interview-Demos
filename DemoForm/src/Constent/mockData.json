@@ -1,0 +1,239 @@
+{
+  "org": "U.S Omni Tech",
+  "pillar": "Supply Chain Tech",
+  "product": "catalog",
+  "productID": 1945,
+  "enviroment": "",
+  "oneops": {
+    "appName": "Image Classification Streams",
+    "assembly": "test",
+    "environment": "",
+    "platform": "",
+    "concord": "URL",
+    "looper": "URL"
+  },
+  "wcnp": {
+    "appName": "wcnp-deployment-name",
+    "namespace": "",
+    "clusters": "",
+    "kitt": ""
+  },
+  "serviceRegistry": "",
+  "description": "",
+  "tier": "Tier1",
+  "apmID": "APM0010516",
+  "adgroup": "",
+  "servicenow": "",
+  "xMatter": "GEC-MTech-AssetsService",
+  "dl": "DL",
+  "jira": "",
+  "poc": "",
+  "owner": "",
+  "l3": "NA",
+  "l4": "NA",
+  "l5": "NA",
+  "gitRepo": "",
+  "checkmarx": "URL",
+  "sonarqube": "URL",
+  "hyegiea": "URL",
+  "splunkURL": "",
+  "dynatrace": "",
+  "prometheus": "",
+  "istioGrafana": "",
+  "podGrafana": "",
+  "appGrafana": "",
+  "mms-alert-config": "",
+  "ccm": [
+    {
+      "url": "",
+      "path": "image-classification"
+    },
+    {
+      "url": "",
+      "path": "image-classification"
+    }
+  ],
+  "secrets": [
+    {
+      "vault": [
+        {
+          "url": "URL",
+          "path": "example_application/dev#db_username"
+        },
+        {
+          "url": "URL",
+          "path": "example_application/dev#db_pass"
+        }
+      ]
+    }
+  ],
+  "platforms": [
+    {
+      "cassandra": [
+        {
+          "dbname": "image-classification-prod",
+
+          "version": "12",
+          "Datacenter": [
+            "cdc",
+            "ndc",
+            "southcentral"
+          ],
+          "teamcontact": "9675534256",
+          "mmslink": "abc",
+          "mmsclusterview": ""
+        }
+      ]
+    },
+    {
+      "mongo": [
+        {
+          "dbname": "DATABASE-NAME",
+          "version": "23",
+          "Datacenter": [
+            "cdc",
+            "ndc",
+            "southcentral"
+          ],
+          "teamcontact": "4567557653",
+          "mmslink": "wer"
+        }
+      ]
+    },
+    {
+      "cosmosdb": [
+        {
+          "dbname": "School DB",
+          "apiversion": "mongo",
+
+          "version": "34",
+          "Datacenter": [
+            "cdc",
+            "ndc",
+            "southcentral"
+          ],
+          "teamcontact": "5645678753",
+          "mmslink": "xyz"
+        }
+      ]
+    },
+    {
+      "yugabyte": [
+        {
+          "dbname": "Cloth manufacture DB",
+          "version": "2",
+          "Datacenter": [
+            "cdc",
+            "ndc",
+            "southcentral"
+          ],
+          "teamcontact": "4534533545",
+          "mmslink": "hgg",
+          "yugaware": ""
+        }
+      ]
+    },
+    {
+      "postgresql": [
+        {
+          "dbname": "DATABASE-NAME",
+          "version": "23",
+          "Datacenter": [
+            "cdc",
+            "ndc",
+            "southcentral"
+          ],
+          "teamcontact": "4364567653",
+          "mmslink": "ertr"
+        }
+      ]
+    },
+    {
+      "azuresql": [
+        {
+          "dbname": "DATABASE-NAME",
+          "version": "23",
+          "Datacenter": [
+            "cdc",
+            "ndc",
+            "southcentral"
+          ],
+          "teamcontact": "5642357654",
+          "mmslink": "erter"
+        }
+      ]
+    },
+    {
+      "oracle": [
+        {
+          "dbname": "DATABASE-NAME",
+          "version": "4",
+          "Datacenter": [
+            "cdc",
+            "ndc",
+            "southcentral"
+          ],
+          "teamcontact": "9745634534",
+          "mmslink": "rte"
+        }
+      ]
+    },
+    {
+      "meghacache": [
+        {
+          "clustername": "",
+          "dxconsoleurl": "",
+          "topicname": [],
+          "lense": ""
+        }
+      ]
+    }
+  ],
+  "platforms2": [
+    {
+      "meghacache": [
+        {
+          "cluster": "lhs-classification-prod",
+          "topic": "9675534256",
+          "lencurl": "abc"
+        }
+      ]
+    },
+    {
+      "elasticsearch": [
+        {
+          "cluster": "pqr-classification-prod",
+          "topic": "9675534256",
+          "lencurl": "abc"
+        }
+      ]
+    },
+    {
+      "storm": [
+        {
+          "cluster": "123-classification-prod",
+          "topic": "Funny",
+          "lencurl": "abc.dfsdf"
+        }
+      ]
+    },
+    {
+      "kafta": [
+        {
+          "cluster": "abc-classification-prod",
+          "topic": "rud",
+          "lencurl": "dsdsds.com"
+        }
+      ]
+    },
+    {
+      "soir": [
+        {
+          "cluster": "xyz-classification-prod",
+          "topic": "Sad",
+          "lencurl": "abc.com"
+        }
+      ]
+    }
+  ]
+}

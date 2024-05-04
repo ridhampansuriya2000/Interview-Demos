@@ -1,0 +1,51 @@
+.cardBody{
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 16px 7px #d8d5d5;
+    transition: 0.5s;
+    min-height: 203px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cardBody::before{
+    opacity: 0.5
+}
+.cardBody:hover{
+    box-shadow: 1px 1px 11px 7px #b0a9a9;
+    margin-top: -8px;
+}
+
+.launchDate{
+    display: flex;
+    justify-content: space-between;
+    color: #6d73bd;
+}
+
+.missionDetails{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.missionName{
+    font-family: cursive;
+    font-size: 20px;
+    font-weight: 500;
+    color: #646385;
+}
+
+.alignCenter{
+    display: flex;
+    align-items: center;
+}
+
+.justifyEnd{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+}

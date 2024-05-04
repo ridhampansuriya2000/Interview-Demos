@@ -1,0 +1,49 @@
+.formContainer{
+    display: flex;
+    justify-content: center;
+}
+.inputLable{
+    font-size: 12px;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 15px;
+    margin: 10px 0px;
+}
+
+.inputField{
+    height: 15px;
+}
+
+.termsConditions{
+    color: #2e7d32;
+}
+
+.redAlrt{
+    color: red;
+}
+
+.fieldBox{
+    margin: 10px 0px;
+}
+
+.subFieldBox{
+    margin: 6px 0px;
+}
+
+.justifyStart{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.alienCenter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.basicData{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}

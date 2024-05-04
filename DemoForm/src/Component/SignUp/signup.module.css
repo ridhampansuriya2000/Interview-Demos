@@ -1,0 +1,21 @@
+.signUpContainer{
+    justify-content: center;
+}
+.fromContainer{
+    color: aliceblue;
+    background: #303030;
+    border-radius: 35px;
+    padding: 1rem;
+    height: auto;
+    margin: auto;
+}
+.toggleButton{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: auto;
+}
+.FormHeader{
+    margin: 20px 0px;
+    font-size: 30px;
+}

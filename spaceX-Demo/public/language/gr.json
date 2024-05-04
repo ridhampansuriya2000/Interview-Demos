@@ -1,0 +1,17 @@
+{
+    "app_title": "RuimteX",
+    "language": "Sprache",
+    "welcome_message": "Herzlich willkommen {{name}}",
+    "Page_not_found": "Seite nicht gefunden.",
+    "page_not_exist": "Die gesuchte Seite existiert nicht.",
+    "sorry": "Opps!",
+    "go_home": "Nach Hause gehen",
+
+
+    "Dashboard": "Dashboard",
+    "Chat_With_Us": "Chat with us",
+
+    "Log_Out": "Log Out"
+
+}
+  
