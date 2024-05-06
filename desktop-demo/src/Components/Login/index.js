@@ -3,14 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 import Checkbox from "../Views/Checkbox";
 import Input from "../Views/Input";
-import Button from "../Views/Button"; // Import CSS Modules for Login component
+import Button from "../Views/Button";
 
 function Login() {
     const navigate = useNavigate();
 
     const handleLogin = () => {
-        // Perform authentication logic
-        // For demonstration, let's navigate to the dashboard after "logging in"
         navigate('/dashboard');
     };
 

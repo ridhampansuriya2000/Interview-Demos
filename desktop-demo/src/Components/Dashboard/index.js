@@ -4,35 +4,34 @@ import Clock from "../Views/Clock";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useParentSize from "../../hooks/useParentSize";
 import Draggable from "../Draggable";
-import {addNewItem} from "../../utils/commonFunctions";
+import {addNewItem, parentsClicking} from "../../utils/commonFunctions";
 import Navbar from "../TopBar";
 import AppsBar from "../AppsBar";
 import NotificationBar from "../NotificationBar";
+import useElementCoordinates from "../../hooks/useElementCoordinates";
+import fetchData from "../../utils/dummyApi";
+
+const closeContextMenu = (ref) =>{
+    const subContextMenu = ref.current;
+    subContextMenu.style.display = 'none';
+};
 
 function Dashboard() {
     const divRef = useRef(null);
+    const appBarRef = useRef(null);
     const parentSize = useParentSize(divRef);
+    const appBarCoordinates = useElementCoordinates(appBarRef);
 
     const contextMenuRef = useRef(null);
     const subContextMenuRef = useRef(null);
     const popupRef = useRef(null);
     const [popupVisible, setPopupVisible] = useState(false);
     const [popupType, setPopupType] = useState('');
-    const [dashboardItems, setDashboardItems] = useState([
-        { id: 1, name:'dummy', type: '', top: 10, left: 10, width: 50, height: 70 },
-        { id: 2, name:'file.docx', type: 'docx', top: 100, left: 10, width: 50, height: 70 },
-        { id: 3, name:'file.docx', type: 'docx', top: 190, left: 10, width: 50, height: 70 },
-        { id: 4, name:'file.docx', type: 'docx', top: 280, left: 10, width: 50, height: 70 },
-        { id: 5, name:'file.docx', type: 'docx', top: 370, left: 10, width: 50, height: 70 },
-    ]);
+    const [dashboardItems, setDashboardItems] = useState([]);
 
     const [popupName, setPopupName] = useState('');
     const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
-    const closeContextMenu = (ref) =>{
-        const subContextMenu = ref.current;
-        subContextMenu.style.display = 'none';
-    };
     useEffect(() => {
         function handleClickOutside(event) {
         }
@@ -42,11 +41,28 @@ function Dashboard() {
         };
     }, []);
 
+    // just dummy because it's mention in task
+    React.useEffect(()=>{
+        fetchData('storageItems')
+            .then(data => {
+                if (data) {
+                    setDashboardItems(data);
+                } else {
+                    alert('No data fetched');
+                }
+            })
+            .catch(error => {
+                alert(`error :- ${error}`)
+                console.error('Error:', error);
+            });
+    },[]);
+
     useOutsideClick(subContextMenuRef,()=>closeContextMenu(subContextMenuRef));
     useOutsideClick(contextMenuRef,()=>closeContextMenu(contextMenuRef));
     useOutsideClick(popupRef,handlePopupCancel);
 
     function showContextMenu(e,ref,openRef) {
+        console.log("event",e)
         e.preventDefault();
         if(!openRef){
             closeContextMenu(subContextMenuRef)
@@ -76,16 +92,12 @@ function Dashboard() {
         contextMenu.style.display = 'block';
         if(openRef){
             let {
-                x,
-                y,
-                width,
-                height,
                 top,
                 right,
                 bottom,
                 left,
             } = e.target?.getBoundingClientRect()
-            if(screenWidth - right > menuWidth){
+            if(screenWidth - right > 2*menuWidth){
                 contextMenu.style.left = `${left+menuWidth}px`;
             }else contextMenu.style.left = `${left-menuWidth}px`;
 
@@ -145,11 +157,11 @@ function Dashboard() {
             className={styles.dashboardContainer}
             onContextMenu={(e) => showContextMenu(e,contextMenuRef)}
         >
-            <div className={styles.topbarBox} item='draggable'>
+            <div className={styles.topbarBox} item='contextDisable'>
                 <Navbar />
             </div>
             <div className={styles.appsbarBox}>
-                <AppsBar />
+                <AppsBar appRef={appBarRef}/>
             </div>
             <div className={styles.clockBox}>
                 <Clock/>
@@ -161,6 +173,7 @@ function Dashboard() {
                     boundaryHeight={parentSize?.height}
                     divRef={divRef}
                     setDashboardItems={setDashboardItems}
+                    appBarCoordinates={appBarCoordinates}
                 />
             </div>
 
@@ -180,19 +193,16 @@ function Dashboard() {
                         onChange={(e) => setPopupName(e.target.value)}
                         item='draggable'
                     />
-                    <button onClick={handlePopupConfirm} item='draggable'>Confirm</button>
+                    <button onClick={handlePopupConfirm} item='contextDisable'>Confirm</button>
                     {/*<button onClick={handlePopupCancel}>Cancel</button>*/}
                 </div>
             )}
             <div className={styles.contextMenu} ref={contextMenuRef}>
                 <ul>
                     <li onClick={handleAddFolder}>Add Folder</li>
-                    <li
-                        onClick={(e)=>showContextMenu(e,subContextMenuRef,contextMenuRef)}
-                    // onClick={disableClick}
-                        >
-                        <span>Add File</span>
-                        <span> > </span>
+                    <li onClick={(e)=>showContextMenu(e,subContextMenuRef,contextMenuRef)} id={'add-file'}>
+                        <span onClick={(e)=>parentsClicking(e,'add-file')}>Add File</span>
+                        <span onClick={(e)=>parentsClicking(e,'add-file')}> > </span>
                     </li>
                     <li >Other option 1</li>
                     <li >Other option 2</li>

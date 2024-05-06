@@ -1,8 +1,7 @@
 import React from 'react';
 import { FaRegFileAlt, FaFolder } from "react-icons/fa";
 import style from './Draggable.module.css';
-import {hasSamePosition, nearestCoordinate} from "../../utils/commonFunctions";
-// import { FaFolder } from "react-icons/fa";
+import {hasOverlapWithBoundaries, hasSamePosition, nearestCoordinate} from "../../utils/commonFunctions";
 
 
 class Draggable extends React.Component {
@@ -20,15 +19,17 @@ class Draggable extends React.Component {
             boundaryHeight: props?.boundaryHeight || 700,
             elementWidth: 50,
             elementHeight: 70,
+            onceCopyDataUpdate:false,
         };
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.draggableElements !== this.props.draggableElements) {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.draggableElements !== this.props.draggableElements && !this.state.onceCopyDataUpdate) {
             this.setState({
-                // draggableElements: this.props.draggableElements,
-                // copyData: this.props.draggableElements,
+                copyData: this.props.draggableElements,
+                onceCopyDataUpdate:true
             })
+
         }
     }
 
@@ -47,96 +48,109 @@ class Draggable extends React.Component {
         e.preventDefault();
         let elm = e.target;
         elm.addEventListener('mouseup', this.handleDragLeave);
-        elm.style.zIndex = 10;
-        const { activeElementId, pos3, pos4 } = this.state;
-        if (activeElementId !== null) {
-            const index = this.props.draggableElements.findIndex(element => element.id === activeElementId);
-            if (index !== -1) {
-                const draggableElement = this.props.draggableElements[index];
-                const pos1 = pos3 - e.clientX;
-                const pos2 = pos4 - e.clientY;
-                const newX = draggableElement.left - pos1;
-                const newY = draggableElement.top - pos2;
+        if(!['contextDisable']?.some((item => item === e.target.getAttribute('item') ))){
+            elm.style.zIndex = 10;
+            const { activeElementId, pos3, pos4 } = this.state;
+            if (activeElementId !== null) {
+                const index = this.props.draggableElements.findIndex(element => element.id === activeElementId);
+                if (index !== -1) {
+                    const draggableElement = this.props.draggableElements[index];
+                    const pos1 = pos3 - e.clientX;
+                    const pos2 = pos4 - e.clientY;
+                    const newX = draggableElement.left - pos1;
+                    const newY = draggableElement.top - pos2;
 
-                // Check if the new position collides with any other element
-                const collided = this.props.draggableElements.some((element) => {
-                    return (
-                        element.id !== activeElementId &&
-                        newX < element.left + 10 + element.width &&
-                        newX + draggableElement.width > element.left -10 &&
-                        newY < element.top + 10 + element.height &&
-                        newY + draggableElement.height > element.top -10
-                    );
-                });
-
-                // If there's no collision and within boundary, update the position, else find nearest empty position
-                let updatedElements;
-                if ((!collided || true) && newX >= 0 && newY >= 0 && newX + draggableElement.width <= this.props.boundaryWidth && newY + draggableElement.height <= this.props.boundaryHeight ) {
-                    updatedElements = this.props.draggableElements.map((element) => {
-                        return element.id === activeElementId ? { ...element, left: newX, top: newY } : element;
+                    // Check if the new position collides with any other element
+                    const collided = this.props.draggableElements.some((element) => {
+                        return (
+                            element.id !== activeElementId &&
+                            newX < element.left + 10 + element.width &&
+                            newX + draggableElement.width > element.left -10 &&
+                            newY < element.top + 10 + element.height &&
+                            newY + draggableElement.height > element.top -10
+                        );
                     });
-                } else {
-                    updatedElements = this.props.draggableElements.map((element) => {
-                        if (element.id === activeElementId) {
-                            let minDistance = Infinity;
-                            let closestX = element.left;
-                            let closestY = element.top;
-                            this.props.draggableElements.forEach((otherElement) => {
-                                const distance = Math.sqrt(
-                                    Math.pow(element.left - otherElement.left, 2) +
-                                    Math.pow(element.top - otherElement.top, 2)
-                                );
-                                if (distance < minDistance && !this.isColliding(element.id, otherElement) &&
-                                    otherElement.left >= 0 && otherElement.top >= 0 &&
-                                    otherElement.left + otherElement.width <= this.props.boundaryWidth &&
-                                    otherElement.top + otherElement.height <= this.props.boundaryHeight) {
-                                    minDistance = distance;
-                                    closestX = otherElement.left;
-                                    closestY = otherElement.top;
-                                }
-                            });
 
-                            return { ...element, left: closestX, top: closestY };
-                        }
-                        return element;
+                    // If there's no collision and within boundary, update the position, else find nearest empty position
+                    let updatedElements;
+                    if ((!collided || true) && newX >= 0 && newY >= 0 && newX + draggableElement.width <= this.props.boundaryWidth && newY + draggableElement.height <= this.props.boundaryHeight ) {
+                        updatedElements = this.props.draggableElements.map((element) => {
+                            return element.id === activeElementId ? { ...element, left: newX, top: newY } : element;
+                        });
+                    } else {
+                        updatedElements = this.props.draggableElements.map((element) => {
+                            if (element.id === activeElementId) {
+                                let minDistance = Infinity;
+                                let closestX = element.left;
+                                let closestY = element.top;
+                                this.props.draggableElements.forEach((otherElement) => {
+                                    const distance = Math.sqrt(
+                                        Math.pow(element.left - otherElement.left, 2) +
+                                        Math.pow(element.top - otherElement.top, 2)
+                                    );
+                                    if (distance < minDistance && !this.isColliding(element.id, otherElement) &&
+                                        otherElement.left >= 0 && otherElement.top >= 0 &&
+                                        otherElement.left + otherElement.width <= this.props.boundaryWidth &&
+                                        otherElement.top + otherElement.height <= this.props.boundaryHeight) {
+                                        minDistance = distance;
+                                        closestX = otherElement.left;
+                                        closestY = otherElement.top;
+                                    }
+                                });
+
+                                return { ...element, left: closestX, top: closestY };
+                            }
+                            return element;
+                        });
+                    }
+                    if(['contextDisable']?.some((item => item === e.target.getAttribute('item') ))) return;
+                    this.props.setDashboardItems(updatedElements);
+                    this.setState({
+                        // draggableElements: updatedElements,
+                        pos1,
+                        pos2,
+                        pos3: e.clientX,
+                        pos4: e.clientY,
                     });
                 }
-                this.props.setDashboardItems(updatedElements);
-                this.setState({
-                    // draggableElements: updatedElements,
-                    pos1,
-                    pos2,
-                    pos3: e.clientX,
-                    pos4: e.clientY,
-                });
             }
+        }else {
+            this.handleDragLeave();
         }
     };
 
-    handleDragLeave = (e) => {setTimeout(() => {
-        let arr = JSON.parse(JSON.stringify(this.props?.draggableElements?.map(item => ({
-            ...item,
-            left: nearestCoordinate(item?.left, 'x', this.state.elementWidth, this.state.elementHeight,this.props.boundaryWidth,this.props.boundaryHeight),
-            top: nearestCoordinate(item?.top, 'y', this.state.elementWidth, this.state.elementHeight,this.props.boundaryWidth,this.props.boundaryHeight)
-        }))))
-        let newArr = hasSamePosition(arr || [],this.props?.draggableElements)
-            ? this?.state?.copyData
-            : this.props?.draggableElements?.map(item => ({
+    handleDragLeave = (e) => {
+        setTimeout(() => {
+            let arr = JSON.parse(JSON.stringify(this.props?.draggableElements?.map(item => ({
                 ...item,
-                left: nearestCoordinate(item?.left, 'x', this.state.elementWidth, this.state.elementHeight,this.props.boundaryWidth,this.props.boundaryHeight),
-                top: nearestCoordinate(item?.top, 'y', this.state.elementWidth, this.state.elementHeight,this.props.boundaryWidth,this.props.boundaryHeight)
-            }))
-        this.props.setDashboardItems(newArr)
-        this.setState({
-            // draggableElements: newArr,
-            copyData: newArr,
-        });
-        if(e){
-            let elm = e.target;
-            elm.style.zIndex = '';
-            elm.removeEventListener('mouseup', this.handleDragLeave);
-        }
-    }, [50])}
+                left: nearestCoordinate(item?.left, 'x', this.state.elementWidth, this.state.elementHeight, this.props.boundaryWidth, this.props.boundaryHeight),
+                top: nearestCoordinate(item?.top, 'y', this.state.elementWidth, this.state.elementHeight, this.props.boundaryWidth, this.props.boundaryHeight)
+            }))))
+            let newArr = (hasOverlapWithBoundaries(arr || [], this.props.appBarCoordinates) || hasSamePosition(arr || [], this.props?.draggableElements))
+            || (e && (['contextDisable']?.some((item => item === e.target.getAttribute('item')))))
+                ? this?.state?.copyData
+                : this.props?.draggableElements?.map(item => ({
+                    ...item,
+                    left: nearestCoordinate(item?.left, 'x', this.state.elementWidth, this.state.elementHeight, this.props.boundaryWidth, this.props.boundaryHeight),
+                    top: nearestCoordinate(item?.top, 'y', this.state.elementWidth, this.state.elementHeight, this.props.boundaryWidth, this.props.boundaryHeight)
+                }))
+            this.props.setDashboardItems(newArr)
+            this.setState({
+                // draggableElements: newArr,
+                copyData: newArr,
+            });
+            if (e) {
+                let elm = e.target;
+                elm.style.zIndex = '';
+                elm.removeEventListener('mouseup', this.handleDragLeave);
+            }
+        }, [50])
+    };
+
+    handleMouseLeave = (e) =>{
+        let elm = e.target;
+        elm.style.zIndex = '';
+    }
 
     isColliding = (id, otherElement) => {
         const draggableElement = this.props.draggableElements.find((element) => element.id === id);
@@ -177,7 +191,7 @@ class Draggable extends React.Component {
                         }}
                         onMouseDown={(e) => this.dragMouseDown(e, element.id)}
                         onMouseUp={this.handleDragLeave}
-                        // onMouseOver={this.handleDragLeave}
+                        onMouseOver={this.handleMouseLeave}
                     >
                         <div onClick={e =>e.stopPropagation()} item='draggable'>
                             {element?.type ?

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-function useParentSize(ref) {
+const useParentSize =(ref)=> {
     const [parentSize, setParentSize] = useState({ width: 0, height: 0 });
 
     useEffect(() => {
@@ -23,7 +23,6 @@ function useParentSize(ref) {
 
         getParentSize();
 
-        // Recalculate size when window resizes
         const handleResize = () => {
             getParentSize();
         };
